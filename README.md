@@ -1,1 +1,1 @@
-# webchat-golang
+# webchat
