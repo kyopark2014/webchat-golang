@@ -7,10 +7,13 @@ $ go run main.go
 ```
 
 ### Docker
+
+Docker Build
 ```c
 $ docker build -t webchat-golang:v1 .
 ```
 
+Dockerfile
 ```c
 ###################
 ##  build stage  ##
@@ -32,7 +35,7 @@ CMD ["./webchat-golang"]
 ### RESULT
 ![image](https://user-images.githubusercontent.com/52392004/82226152-19af0780-9961-11ea-9f57-5feb9cd748a7.png)
 
-### SEVER
+### SERVER
 ```go
 	server, err := socketio.NewServer(nil)
 	if err != nil {
@@ -78,7 +81,7 @@ CMD ["./webchat-golang"]
 
 ```
 
-### Client: chat.js
+### CLIENT: chat.js
 ```js
 // Make connection
 // Make connection
