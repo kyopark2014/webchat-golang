@@ -10,13 +10,17 @@ var message = document.getElementById('message'),
 
 // Emit events
 btn.addEventListener('click', function(){
-    console.log('Enter message: ' + handle.value + ':' + message.value);
-    /* socket.emit('chat', {
+    const chatmsg = {
         message: message.value,
-        handle: handle.value 
-    }); */ 
-    socket.emit('chat', message.value);
-    message.value = '';
+        handle: handle.value
+    };
+
+    const msgJSON = JSON.stringify(chatmsg);
+    console.log(msgJSON);
+    
+    socket.emit('chat', msgJSON);
+
+    message.value = "";
 });
 
 message.addEventListener('keypress', function(){
@@ -25,15 +29,13 @@ message.addEventListener('keypress', function(){
 
 // Listen for events
 socket.on('chat', function(data){
-    console.log('message: '+data);
+    const object = JSON.parse(data);
 
     feedback.innerHTML = '';
-    // output.innerHTML = '<p><strong>' + data.handle + ': </strong>' + data.message + '</p>';
-    output.innerHTML = '<p><strong>' + data + ': </strong></p>';
+
+    output.innerHTML += '<p><strong>' + object.handle + ': </strong>' + object.message + '</p>';
 });
 
 socket.on('typing', function(data){
-    console.log('typing message: '+data);
-
     feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>';
 });
