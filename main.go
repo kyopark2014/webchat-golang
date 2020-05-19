@@ -25,10 +25,8 @@ func main() {
 		so.Join("chat")
 
 		so.On("chat", func(msg string) {
-			log.I("chat: %v", msg)
+			log.D("debug: %v", msg)
 			so.Emit("chat", msg)
-			// so.Emit("chat message", msg)
-			//so.BroadcastTo("room", "chat message", msg)
 		})
 
 		so.On("typing", func(msg string) {
@@ -47,8 +45,11 @@ func main() {
 	//http.Handle("/socket.io/", server)
 
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
+		if origin := r.Header.Get("Origin"); origin != "" {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+		}
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 		server.ServeHTTP(w, r)
 	})
 
