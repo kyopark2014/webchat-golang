@@ -2,7 +2,31 @@
 
 ### RUN
 ```c
+$ go get github.com/nkovacs/go-socket.io 
 $ go run main.go
+```
+
+### Docker
+```c
+$ docker build -t webchat-golang:v1 .
+```
+
+```c
+###################
+##  build stage  ##
+###################
+FROM golang:1.13.0-alpine as builder
+WORKDIR /webchat-golang
+COPY . .
+RUN go build -v -o webchat-golang
+
+##################
+##  exec stage  ##
+##################
+FROM alpine:3.10.2
+WORKDIR /app
+COPY --from=builder /webchat-golang /app/
+CMD ["./webchat-golang"]
 ```
 
 ### RESULT
